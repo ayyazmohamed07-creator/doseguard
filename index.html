@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoseGuard – Smart Medication Adherence & Care Team Portal</title>
+  <meta name="description" content="Never Miss a Dose. Never Miss a Warning. Smart medication adherence monitoring, smart dispenser synchronization, and automated care team escalation.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- ======================================================================
+         1. Left Collapsible Navigation Sidebar
+         ====================================================================== -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="#overview" class="logo-container" onclick="NavigationController.navigate('overview')">
+          <div class="logo-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">DoseGuard</span>
+            <span class="logo-subtitle">Care Team Portal</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" title="Toggle Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Clinical Monitoring</div>
+
+        <a class="nav-item active" data-view="overview" onclick="NavigationController.navigate('overview')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="nav-text">Overview</span>
+        </a>
+
+        <a class="nav-item" data-view="patients" onclick="NavigationController.navigate('patients')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="nav-text">Patient Monitoring</span>
+        </a>
+
+        <a class="nav-item" data-view="medications" onclick="NavigationController.navigate('medications')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+          <span class="nav-text">Medication Tracking</span>
+        </a>
+
+        <a class="nav-item" data-view="escalation" onclick="NavigationController.navigate('escalation')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span class="nav-text">Escalation Center</span>
+          <span class="badge-count" id="sidebarEscalationsBadge">4</span>
+        </a>
+
+        <a class="nav-item" data-view="dispensers" onclick="NavigationController.navigate('dispensers')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M9 2v2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 20v2"/><path d="M15 20v2"/><path d="M2 9h2"/><path d="M2 15h2"/></svg>
+          <span class="nav-text">Smart Dispensers</span>
+        </a>
+
+        <div class="nav-section-title" style="margin-top: 14px;">Administration</div>
+
+        <a class="nav-item" data-view="reports" onclick="NavigationController.navigate('reports')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="nav-text">Reports & Analytics</span>
+        </a>
+
+        <a class="nav-item" data-view="notifications" onclick="NavigationController.navigate('notifications')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="nav-text">Notifications</span>
+        </a>
+
+        <a class="nav-item" data-view="settings" onclick="NavigationController.navigate('settings')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="nav-text">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge" title="Dr. Sarah Jenkins - Lead Clinician">
+          <div class="user-avatar">SJ</div>
+          <div class="user-info">
+            <span class="user-name">Dr. Sarah Jenkins</span>
+            <span class="user-role">Lead Clinician (CCO)</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         2. Main Application Body
+         ====================================================================== -->
+    <main class="main-content" id="mainContent">
+
+      <!-- Top Interactive Simulation Toolbar -->
+      <header class="top-header">
+        <div class="top-header-left">
+          <div class="page-breadcrumb">
+            <span>DoseGuard</span>
+            <span>/</span>
+            <strong id="activePageBreadcrumb">Overview Dashboard</strong>
+          </div>
+          <div class="demo-mode-pill">
+            <span class="dot"></span>
+            <span>SYNTHETIC DEMO DATA</span>
+          </div>
+        </div>
+
+        <div class="top-header-actions">
+          <button class="btn btn-simulate" id="globalSimulateBtn" title="Demonstrate full automated caregiver & clinician escalation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            SIMULATE MISSED DOSE
+          </button>
+
+          <button class="btn btn-reset" id="globalResetBtn" title="Reset demonstration state back to baseline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            RESET SIMULATION
+          </button>
+        </div>
+      </header>
+
+      <!-- Real-Time Emergency Alert Banner (Shown during active simulation) -->
+      <div id="emergencyBanner" class="emergency-banner hidden"></div>
+
+      <!-- ==================================================================
+           PAGE 1: OVERVIEW DASHBOARD
+           ================================================================== -->
+      <section id="view-overview" class="view-section page-container">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h1 class="page-title">Healthcare Adherence Command Center</h1>
+            <p class="page-description">Never Miss a Dose. Never Miss a Warning. Real-time patient telemetry & care team escalation status.</p>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">
+            Live Sync: Connected to 96 Dispensers • TLS 1.3
+          </div>
+        </div>
+
+        <!-- 6 KPI Summary Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Total Patients</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiTotalPatients">125</div>
+            <div class="kpi-trend positive">
+              <span>↑ 4 new enrolled this month</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Active Patients</span>
+              <div class="kpi-icon-wrap success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiActivePatients">118</div>
+            <div class="kpi-trend neutral">
+              <span>94.4% monitoring compliance</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Avg Adherence</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiAvgAdherence">87.5%</div>
+            <div class="kpi-trend positive">
+              <span>↑ 2.3% above CMS standard</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Missed Doses Today</span>
+              <div class="kpi-icon-wrap danger">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiMissedDoses" style="color: var(--status-danger);">12</div>
+            <div class="kpi-trend negative">
+              <span>Attention required</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Active Escalations</span>
+              <div class="kpi-icon-wrap warning">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiActiveEscalations" style="color: var(--status-warning);">4</div>
+            <div class="kpi-trend negative">
+              <span>2 Level 1 • 2 Level 2</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Connected Dispensers</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M9 2v2"/></svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiConnectedDispensers">96</div>
+            <div class="kpi-trend positive">
+              <span>98.9% Signal uptime</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Grid: Adherence Line Chart + Status Overview -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 28px;">
+          <!-- Interactive Adherence Trend Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Weekly Medication Adherence Trend
+              </div>
+              <span class="badge badge-info">7-Day Aggregated Compliance</span>
+            </div>
+            <div class="card-body">
+              <div id="overviewChartContainer" class="chart-wrapper"></div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 14px; border-top: 1px solid var(--border-light); padding-top: 10px;">
+                <span>Target Adherence Benchmark: <strong>80.0%</strong></span>
+                <span>Current Rolling Average: <strong>87.5%</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Patient Status Overview Breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Patient Status Distribution
+              </div>
+            </div>
+            <div class="card-body" id="patientStatusBreakdown">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Lower Grid: Recent Missed-Dose Alerts + Dispenser Feed -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <!-- Recent Missed-Dose Alerts -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+                Recent Missed-Dose Escalations
+              </div>
+              <button class="btn btn-sm btn-outline-primary" onclick="NavigationController.navigate('escalation')">
+                View All
+              </button>
+            </div>
+            <div class="card-body" id="overviewRecentAlertsList" style="padding-top: 8px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Recent Dispenser Synchronization Activity -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+                Dispenser Telemetry & Heartbeat Feed
+              </div>
+              <button class="btn btn-sm btn-outline-primary" onclick="NavigationController.navigate('dispensers')">
+                Fleet Status
+              </button>
+            </div>
+            <div class="card-body" id="overviewDispenserActivityList" style="padding-top: 8px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 2: PATIENT MONITORING
+           ================================================================== -->
+      <section id="view-patients" class="view-section page-container" style="display: none;">
+        <div class="page-header">
+          <h1 class="page-title">Patient Monitoring & Cohort Care</h1>
+          <p class="page-description">Search and filter active patient records, track real-time medication adherence, and inspect care team assignments.</p>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="filter-bar">
+          <div class="search-box-wrap" style="width: 320px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="form-input" placeholder="Search by name, ID (e.g. DG001), condition..." oninput="handlePatientSearch(this)">
+          </div>
+
+          <div class="filter-pills" id="patientFilterPills">
+            <button class="filter-pill active" onclick="setPatientFilter('all', this)">All Patients</button>
+            <button class="filter-pill" onclick="setPatientFilter('on track', this)">On Track</button>
+            <button class="filter-pill" onclick="setPatientFilter('attention required', this)">Attention Required</button>
+            <button class="filter-pill" onclick="setPatientFilter('critical', this)">Critical</button>
+          </div>
+        </div>
+
+        <!-- Patients Table Card -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>Patient Name & Demographics</th>
+                  <th>Assigned Caregiver</th>
+                  <th>Assigned Clinician</th>
+                  <th>Adherence Rate</th>
+                  <th>Last Medication Activity</th>
+                  <th>Current Status</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="patientsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 3: MEDICATION TRACKING
+           ================================================================== -->
+      <section id="view-medications" class="view-section page-container" style="display: none;">
+        <div class="page-header">
+          <h1 class="page-title">Medication Regimen & Daily Timeline</h1>
+          <p class="page-description">24-hour chronological timeline of scheduled, taken, and missed medication doses across the patient cohort.</p>
+        </div>
+
+        <!-- Status Legend Banner -->
+        <div class="card" style="margin-bottom: 24px; padding: 14px 24px; background: #FFFFFF;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 16px; font-size: 0.85rem;">
+              <span style="font-weight: 700; color: var(--text-main);">Dose Status Legend:</span>
+              <span class="badge badge-success">● Taken (Green)</span>
+              <span class="badge badge-info">● Upcoming (Blue)</span>
+              <span class="badge badge-danger">● Missed (Red)</span>
+              <span class="badge badge-warning">● Pending (Orange)</span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">
+              Safety Policy: Dose confirmation requires dispenser telemetry synchronization.
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Medication Timeline Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Today's Regimen Schedule (Chronological Order)
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="timeline" id="medicationsTimelineList">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Medical Advisory Notice -->
+        <div style="margin-top: 20px; padding: 14px 20px; background: #FEF3C7; border: 1px solid #FDE68A; border-radius: var(--radius-md); font-size: 0.82rem; color: #92400E; display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <strong>Medical Safety Disclaimer:</strong> DoseGuard displays scheduling telemetry only. The platform does not alter physician orders or provide prescriptive advice. Always refer to the prescribing physician's directions.
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 4: AUTOMATED MISSED-DOSE ESCALATION CENTER (CORE)
+           ================================================================== -->
+      <section id="view-escalation" class="view-section page-container" style="display: none;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h1 class="page-title">Automated Missed-Dose Escalation Center</h1>
+            <p class="page-description">Dedicated multi-tier emergency escalation dispatch. When a dose confirmation is missed, caregiver and clinician response teams are mobilized automatically.</p>
+          </div>
+          <div>
+            <button class="btn btn-simulate" onclick="store.startMissedDoseSimulation()">
+              🚨 Test Simulation Workflow
+            </button>
+          </div>
+        </div>
+
+        <!-- 5-Step Visual Workflow Stepper -->
+        <div class="escalation-stepper" id="escalationWorkflowStepper">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Incident Filter Tabs -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div class="filter-pills" id="escalationFilterTabs">
+            <button class="filter-pill active" onclick="setEscalationFilter('all', this)">All Active Escalations</button>
+            <button class="filter-pill" onclick="setEscalationFilter('level1', this)">Level 1 (Caregiver Alerts)</button>
+            <button class="filter-pill" onclick="setEscalationFilter('level2', this)">Level 2 (Clinician Dispatches)</button>
+            <button class="filter-pill" onclick="setEscalationFilter('resolved', this)">Resolved History</button>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">
+            Escalation Window: 15s (Demo Presentation Speed)
+          </div>
+        </div>
+
+        <!-- Active Incidents List -->
+        <div id="escalationIncidentsList">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 5: SMART DISPENSER MONITORING
+           ================================================================== -->
+      <section id="view-dispensers" class="view-section page-container" style="display: none;">
+        <div class="page-header">
+          <h1 class="page-title">Smart Dispenser Telemetry & Hardware Simulator</h1>
+          <p class="page-description">Monitor connected dispenser hardware status, battery levels, compartment actuations, and cryptographic tamper detection logs.</p>
+        </div>
+
+        <!-- Hardware Interactive Simulation Toolbar -->
+        <div class="card" style="margin-bottom: 24px; padding: 18px 24px; background: #FFFFFF; border: 1px solid #BFDBFE;">
+          <div style="font-weight: 700; font-size: 0.92rem; color: var(--navy-dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Interactive Hardware Demonstration Controls
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="store.simulateDeviceSync()">
+              ⚡ Simulate Device Sync
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="store.simulateDoseRelease()">
+              💊 Simulate Dose Release
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="store.simulateDeviceOffline()">
+              📡 Simulate Device Offline
+            </button>
+            <button class="btn btn-simulate btn-sm" onclick="store.simulateTamperAlert()">
+              🚨 Simulate Tamper Alert
+            </button>
+          </div>
+        </div>
+
+        <!-- Dispensers Table -->
+        <div class="card" style="margin-bottom: 28px;">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+              Connected Dispenser Fleet (96 Total Units)
+            </div>
+            <span class="badge badge-success">Telemetry TLS Encrypted</span>
+          </div>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Device ID</th>
+                  <th>Assigned Patient</th>
+                  <th>Connection</th>
+                  <th>Battery & Signal</th>
+                  <th>Compartment</th>
+                  <th>Dose Release</th>
+                  <th>Tamper Status</th>
+                  <th>Last Sync</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="dispensersTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cryptographic Tamper-Evident SHA-256 Ledger -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Tamper-Evident Hash-Chained Hardware Event Log
+            </div>
+            <span class="badge badge-info">Immutable SHA-256 Chain</span>
+          </div>
+          <div class="card-body">
+            <div id="dispenserEventLogList">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Dispenser vs Ingestion Medical Clarification -->
+        <div style="margin-top: 20px; padding: 14px 20px; background: #F1F5F9; border-radius: var(--radius-md); font-size: 0.82rem; color: #475569; display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <div>
+            <strong>Notice on Ingestion Telemetry:</strong> Dispenser compartment unlocking and solenoid release telemetries indicate mechanical access to the medication, but do not represent legal or clinical proof of oral ingestion.
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 6: REPORTS & ANALYTICS
+           ================================================================== -->
+      <section id="view-reports" class="view-section page-container" style="display: none;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h1 class="page-title">Reports & Population Adherence Analytics</h1>
+            <p class="page-description">Deep clinical insights into cohort adherence patterns, caregiver response times, and dispenser hardware reliability.</p>
+          </div>
+          <div>
+            <button class="btn btn-outline-primary" onclick="exportAuditReportCSV()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Audit CSV Report
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Metric Blocks -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px;">
+          <div class="card" style="padding: 18px;">
+            <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Caregiver Response Avg</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-top: 4px;">8.4 mins</div>
+            <div style="font-size: 0.75rem; color: var(--status-success); margin-top: 4px;">74% resolved under 15m</div>
+          </div>
+
+          <div class="card" style="padding: 18px;">
+            <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Clinician Escalation Rate</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--status-warning); margin-top: 4px;">6.2%</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Only 6 of 98 require L2</div>
+          </div>
+
+          <div class="card" style="padding: 18px;">
+            <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Sync Reliability Score</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--blue-primary); margin-top: 4px;">99.1%</div>
+            <div style="font-size: 0.75rem; color: var(--status-success); margin-top: 4px;">4G & WiFi mesh active</div>
+          </div>
+
+          <div class="card" style="padding: 18px;">
+            <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Medication Retention</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-top: 4px;">96.8%</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Cohort continuity</div>
+          </div>
+        </div>
+
+        <!-- 2 Column Analytics Charts -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Monthly Adherence Trend (Week-by-Week)</div>
+            </div>
+            <div class="card-body" id="analyticsAdherenceChart">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Missed Dose Frequency by Time of Day</div>
+            </div>
+            <div class="card-body" id="analyticsTimeChart">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 7: NOTIFICATIONS HUB
+           ================================================================== -->
+      <section id="view-notifications" class="view-section page-container" style="display: none;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h1 class="page-title">Notifications & Care Team Dispatch Log</h1>
+            <p class="page-description">Unified log of missed dose warnings, caregiver push notifications, clinician escalations, and hardware alerts.</p>
+          </div>
+          <div>
+            <button class="btn btn-secondary btn-sm" onclick="markAllNotificationsRead()">
+              Mark All as Read
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-pills" id="notifFilterTabs" style="margin-bottom: 20px;">
+          <button class="filter-pill active" onclick="setNotifFilter('all', this)">All Notifications</button>
+          <button class="filter-pill" onclick="setNotifFilter('Caregiver', this)">Caregiver Alerts</button>
+          <button class="filter-pill" onclick="setNotifFilter('Clinician', this)">Clinician Escalations</button>
+          <button class="filter-pill" onclick="setNotifFilter('Tamper', this)">Tamper Detections</button>
+          <button class="filter-pill" onclick="setNotifFilter('Device', this)">Device Telemetry</button>
+        </div>
+
+        <div id="notificationsList">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           PAGE 8: SETTINGS & CONFIGURATION
+           ================================================================== -->
+      <section id="view-settings" class="view-section page-container" style="display: none;">
+        <div class="page-header">
+          <h1 class="page-title">System & Escalation Configuration</h1>
+          <p class="page-description">Configure missed-dose grace windows, clinician escalation thresholds, and automated notification channels.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          <!-- Left Column: Escalation Rules & Hardware Config -->
+          <div>
+            <div class="card" style="margin-bottom: 24px;">
+              <div class="card-header">
+                <div class="card-title">Automated Escalation Rule Engine</div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Step 2 to Step 3: Caregiver Notification Delay</label>
+                  <select class="form-select">
+                    <option selected>Immediate (0 minutes after missed window)</option>
+                    <option>5 minutes grace window</option>
+                    <option>15 minutes grace window</option>
+                  </select>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+                    When scheduled dose passes without confirmation, generate Level 1 Caregiver alert.
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Step 3 to Step 4: Clinician Escalation Countdown</label>
+                  <select class="form-select" onchange="store.demoSpeed = parseInt(this.value);">
+                    <option value="15" selected>15 seconds (Hackathon Live Demo Presentation Mode)</option>
+                    <option value="30">30 seconds (Fast Demo)</option>
+                    <option value="900">15 minutes (Standard Clinical Protocol)</option>
+                    <option value="1800">30 minutes (Extended Caregiver Window)</option>
+                  </select>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+                    If caregiver does not acknowledge the incident within this period, automatically dispatch Level 2 alert to assigned Clinician.
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label">Simulated Delivery Channels</label>
+                  <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                    <label style="display:flex; align-items:center; gap:8px;">
+                      <input type="checkbox" checked> In-App Urgent Dashboard Siren & Toast Alert
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px;">
+                      <input type="checkbox" checked> Simulated SMS Dispatch to Primary Caregiver (+1 555-XXX-XXXX)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px;">
+                      <input type="checkbox" checked> Simulated Clinician Hospital EHR Pager
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dispenser Hardware Parameters -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Dispenser Security & Tamper Policies</div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Tamper-Evident Sensor Sensitivity</label>
+                  <select class="form-select">
+                    <option>High (Triggers on 15° tilt or 2.5N lid force)</option>
+                    <option selected>Medium (Standard clinical deployment)</option>
+                    <option>Low (Tolerates transit vibrations)</option>
+                  </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label">Auto-Lock Solenoid on Missed Window</label>
+                  <select class="form-select">
+                    <option selected>Lock compartment immediately until caregiver acknowledgment</option>
+                    <option>Leave compartment accessible for 2 hours</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Care Team Directory & Identity -->
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Lead Care Team Directory</div>
+              </div>
+              <div class="card-body" style="padding-top: 14px;">
+                <div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+                  <div style="font-weight: 700; font-size: 0.9rem;">Dr. Sarah Jenkins, MD</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">Chief Clinical Officer • Internal Medicine</div>
+                  <div style="font-size: 0.75rem; color: var(--blue-primary); margin-top: 2px;">Role: Level 2 Clinical Escalation Lead</div>
+                </div>
+
+                <div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+                  <div style="font-weight: 700; font-size: 0.9rem;">Dr. Emily Carter, MD</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">Cardiologist • Heart Failure Specialist</div>
+                  <div style="font-size: 0.75rem; color: var(--blue-primary); margin-top: 2px;">Assigned to: DG004, DG007</div>
+                </div>
+
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">Dr. Robert Vance, MD</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">Geriatrician & Nephrologist</div>
+                  <div style="font-size: 0.75rem; color: var(--blue-primary); margin-top: 2px;">Assigned to: DG002, DG005</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ======================================================================
+       3. Patient Profile Slide-Over Drawer
+       ====================================================================== -->
+  <div class="drawer-overlay" id="patientDrawerOverlay" onclick="closePatientDrawer()"></div>
+  <aside class="slide-drawer" id="patientSlideDrawer">
+    <div class="drawer-header">
+      <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text-main);">
+        Patient Clinical Profile
+      </div>
+      <button class="btn-close" onclick="closePatientDrawer()" title="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="patientDrawerContent">
+      <!-- Dynamically filled with patient info -->
+    </div>
+    <div class="drawer-footer">
+      <button class="btn btn-secondary" onclick="closePatientDrawer()">Close</button>
+      <button class="btn btn-primary" onclick="store.startMissedDoseSimulation(); closePatientDrawer();">
+        Simulate Missed Dose for Patient
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======================================================================
+       4. Incident Resolution Modal
+       ====================================================================== -->
+  <div class="modal-overlay" id="resolveModalOverlay">
+    <div class="modal-content" id="resolveIncidentModal">
+      <div class="modal-header">
+        <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text-main);" id="resolveModalTitle">
+          Resolve Incident
+        </div>
+        <button class="btn-close" onclick="closeResolveModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Clinical Resolution Category</label>
+          <select class="form-select" id="resolveReasonSelect">
+            <option selected>Caregiver administered backup dose in person</option>
+            <option>Patient took medication manually with water</option>
+            <option>False alarm – dispenser telemetry synchronized with delay</option>
+            <option>Dose intentionally held per physician order</option>
+            <option>Telehealth clinician intervention successful</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Care Team Follow-Up Clinical Notes</label>
+          <textarea class="form-textarea" id="resolveNoteInput" rows="3" placeholder="Enter clinical notes, patient vital signs, or caregiver response details..."></textarea>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+            This note will be recorded into the tamper-evident audit history.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeResolveModal()">Cancel</button>
+        <button class="btn btn-success" onclick="submitIncidentResolution()">
+          Confirm & Close Incident
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       5. Floating Toast Notification Hub
+       ====================================================================== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript Application Entry -->
+  <script src="app.js"></script>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const main = document.getElementById('mainContent');
+      if (sidebar && main) {
+        sidebar.classList.toggle('collapsed');
+        main.classList.toggle('expanded');
+      }
+    }
+  </script>
+</body>
+</html>
